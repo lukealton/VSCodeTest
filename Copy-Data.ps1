@@ -1,7 +1,11 @@
 #This script will copy data from the Data folder to the desktop of the local machine.
-if (-Not(Test-Path -Path "C:\Users\Luke\Desktop\Data")) {
-    Copy-Item .\Data -Destination C:\Users\Luke\Desktop\Data -Recurse
+function CopyData ($SourceDirectory,$DestinationDirectory) {
+    if (-Not(Test-Path -Path $DestinationDirectory)) {
+        Copy-Item $SourceDirectory -Destination $DestinationDirectory -Recurse
+    }
+    else {
+        Get-Childitem -Path $SourceDirectory | Copy-Item -Destination $DestinationDirectory -Recurse
+    }
 }
-else {
-    Get-Childitem -Path .\Data | Copy-Item -Destination "C:\Users\Luke\Desktop\Data" -Recurse
-}
+
+CopyData -SourceDirectory .\Data -DestinationDirectory "C:\Users\Luke\Desktop\Data"
